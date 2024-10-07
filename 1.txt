@@ -1,0 +1,118 @@
+p4
+Database1Entities db = new Database1Entities();
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Index(Table t1)
+        {
+            db.Tables.Add(t1);
+            db.SaveChanges();
+            return RedirectToAction("Display");
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var obj = db.Tables.Find(id);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Edit(Table t1)
+        {
+            db.Entry(t1).State = System.Data.Entity.EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Display");
+        }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var obj = db.Tables.Find(id);
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Delete(Table t1)
+        {
+            db.Entry(t1).State = System.Data.Entity.EntityState.Deleted;
+            db.SaveChanges();
+            return RedirectToAction("Display");
+        }
+        [HttpGet]
+        public ActionResult Display()
+        {
+            var obj = db.Tables.ToList();
+            return View(obj);
+        }
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var obj = db.Tables.Find(id);
+            return View(obj);
+        }
+
+
+p5
+ static List<student> students = new List<student>();
+        // GET: api/Student
+        public IEnumerable<student> Get()
+        {
+            return students;
+        }
+
+        // GET: api/Student/5
+        public student Get(int id)
+        {
+            return students.FirstOrDefault(s=>s.id==id);
+        }
+
+        // POST: api/Student
+        public void Post([FromBody]student value)
+        {
+            students.Add(value);
+        }
+
+        // PUT: api/Student/5
+        public void Put(int id, [FromBody]student value)
+        {
+            int i = students.FindIndex(s => s.id == id);
+            if (i >= 0)
+                students[i] = value;
+        }
+
+        // DELETE: api/Student/5
+        public void Delete(int id)
+        {
+            students.RemoveAll(s => s.id == id);
+        }
+
+p6
+Database1Entities db = new Database1Entities();
+        // GET: api/emp
+        public IEnumerable<Table> Get()
+        {
+            return (db.Tables.ToList());
+        }
+
+        // GET: api/emp/5
+        public Table Get(int id)
+        {
+            return (db.Tables.Find(id));
+        }
+
+        // POST: api/emp
+        public String Post(Table t1)
+        {
+            db.Tables.Add(t1);
+            db.SaveChanges();
+            return "data added";
+        }
+
+        // DELETE: api/emp/5
+        public String Delete(int id)
+        {
+            Table t1 = db.Tables.Find(id);
+            db.Tables.Remove(t1);
+            db.SaveChanges();
+            return "data deleted";
+        }
